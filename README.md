@@ -73,6 +73,8 @@
 
 ## Второе задание - проектирование API
 
+###1. Описание запроса
+
 Описание эндпоинта в формате Open API можно посмотреть в файле [shopApi.yaml](shopApi.yaml)
 
 Чтобы получить данные для отображения экрана из задания клиент должен отправить GET запрос на эндпоинт api/v1/partners без параметров. В качестве ответа эндпоинт должен вернуть массив объектов описывающих партнера. У каждого из этих объектов должны быть следующие поля:
@@ -104,3 +106,33 @@ DurationDelivery содержит следующие поля:
 |type|String|тип объекта с информацией о доставке (duration)|Да|Нет|
 |minMinutes|integer|Минимальное время доставки в минутах|Да|Нет|
 |maxMinutes|integer|Максимальное время доставки в минутах|Нет|Да|
+
+
+###2. Пример ответа
+
+```json
+[
+  {
+    "id": 1,
+    "title": "METRO",
+    "link": "https://metro.com",
+    "logo": "https://link.to/image",
+    "delivery": {
+      "type": "timeslot",
+      "startTime": "18:00",
+      "endTime": "23:00"
+    }
+  },
+  {
+    "id": 2,
+    "title": "ВкусВилл",
+    "link": "https://vkusvill.ru",
+    "logo": "https://link.to/vkusvill_image",
+    "delivery": {
+      "type": "duration",
+      "minMinutes": 20,
+      "maxMinutes": 60
+    }
+  }
+]
+```

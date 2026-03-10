@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: Петрушка зеленая API
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080/api/v1/
+paths:
+  /partners:
+    get:
+      summary: Информация о партнерах
+      tags: [Партнеры]
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required: [id, title, link, logo]
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: Уникальный идентификатор партнера
+                      example: 001
+                    title:
+                      type: string
+                      description: Наименование партнера
+                      example: "METRO"
+                    link:
+                      type: string
+                      description: Ссылка на сайт партнера 
+                      example: "https://metro.com"
+                    logo:
+                      type: string
+                      description: Ссылка на логотип партнера
+                      example: "https://link.to/image"
+                    delivery:
+                      $ref: '#/components/schemas/Schedule'
+components:
+  schemas:
+    Schedule:
+      oneOf:
+        - $ref: '#/components/schemas/TimeslotDelivery'
+        - $ref: '#/components/schemas/DurationDelivery'
+      discriminator:
+        propertyName: type
+        mapping:
+          timeslot: '#/components/schemas/TimeslotDelivery'
+          duration: '#/components/schemas/DurationDelivery'
+    TimeslotDelivery:
+      type: object
+      required:
+        - type
+        - startTime
+        - endTime
+      properties:
+        type:
+          type: string
+          enum: [timeslot]
+        startTime:
+          type: string
+          format: time
+          description: Начало временного слота (например, 18:00)
+          example: "18:00"
+        endTime:
+          type: string
+          format: time
+          description: Конец временного слота (например, 23:00)
+          example: "23:00"
+    DurationDelivery:
+      type: object
+      required:
+        - type
+        - minMinutes
+        - maxMinutes
+      properties:
+        type:
+          type: string
+          enum: [duration]
+        minMinutes:
+          type: integer
+          minimum: 0
+          description: Минимальное время доставки в минутах
+          example: 20
+        maxMinutes:
+          type: integer
+          minimum: 0
+          description: Максимальное время доставки в минутах
+          example: 60
+      

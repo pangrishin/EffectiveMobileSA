@@ -18,7 +18,7 @@ paths:
                 type: array
                 items:
                   type: object
-                  required: [id, title, link, logo]
+                  required: [id, title, link, delivery]
                   properties:
                     id:
                       type: integer
@@ -52,10 +52,7 @@ components:
           duration: '#/components/schemas/DurationDelivery'
     TimeslotDelivery:
       type: object
-      required:
-        - type
-        - startTime
-        - endTime
+      required: [type, startTime, endTime]
       properties:
         type:
           type: string
@@ -72,10 +69,7 @@ components:
           example: "23:00"
     DurationDelivery:
       type: object
-      required:
-        - type
-        - minMinutes
-        - maxMinutes
+      required: [type,  minMinutes]
       properties:
         type:
           type: string
@@ -90,4 +84,3 @@ components:
           minimum: 0
           description: Максимальное время доставки в минутах
           example: 60
-      
